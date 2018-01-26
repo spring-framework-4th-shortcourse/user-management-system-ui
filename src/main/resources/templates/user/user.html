@@ -55,6 +55,30 @@
 	<th:block layout:fragment="myScript">
 	
 		<script src="/js/script.js"></script>
+		<script src="https://rawgit.com/carlo/jquery-base64/master/jquery.base64.min.js"></script>
+		
+		<script>
+			(function(){
+				//Basic Authentication Key
+				var username = 'user', password = '123';
+				var key = $.base64.encode(`${username}:${password}`);
+				
+				console.log(key);
+				$.ajax({
+					url: 'http://localhost:8282/api/users',
+					method: 'GET',
+					beforeSend: function(xhr){
+						xhr.setRequestHeader('Authorization', 'Basic ' + key);
+					},
+					success: function(response){
+						console.log('success', response);
+					},
+					error: function(error){
+						console.log('error', error);
+					}
+				});
+			})();
+		</script>
 		
 	</th:block>
 </body>
