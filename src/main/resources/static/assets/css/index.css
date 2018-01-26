@@ -1,0 +1,22 @@
+h1{
+	color:red;
+}
+
+.error{
+	color:red;
+}
+
+.page-footer{
+	margin-top:20px;
+	padding:40px;
+	font-size:large;
+	background-color: #337ab7;
+	color: #fff;
+	text-align: center;
+}
+
+.nav>li>a{
+	position: relative;
+    display: block;
+	padding: 15px 5px;
+}

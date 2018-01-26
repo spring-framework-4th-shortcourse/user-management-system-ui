@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  layout:decorator="layouts/default">
+<head>
+	<meta charset="utf-8">
+	<title>User List</title>
+	<link rel="stylesheet" href="/css/user.css"/>
+</head>
+
+<body>
+	<div class="container" layout:fragment="content">
+		<div class="alert alert-info">
+			<h2 th:text="#{Page.user.user.title}">User List</h2><hr/>
+			<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary" href="/user/add">Create User</a>
+		</div>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>No</th>
+					<th>Username</th>
+					<th>Gender</th>
+					<th>Thumbnail</th>
+					<th>Roles</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody th:each="user: ${users}">
+				<tr>
+					<td th:text="${userStat.index+1}">1</td>
+					<td th:text="${user.name}">A</td>
+					<td th:text="${user.gender=='F'?'Female':'Male'}"></td>
+					<td>
+						<img th:src="${user.image}" width="100px"/>
+					</td>
+					<td>
+						<span th:each="role: ${user.roles}" th:text="${role.role}" class="label label-primary"></span>
+					</td>
+					<td>
+						<form th:action="@{/user/remove}" th:method="delete">
+							<a class="btn btn-default" th:href="@{/user/{id}(id=${user.id})}">View</a>
+							<span sec:authorize="hasRole('ROLE_ADMIN')">
+								<input type="hidden" name="id" th:value="${user.id}"/>
+								<input class="btn btn-danger" type="submit" value="Remove"/>
+							</span>
+							<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-warning" th:href="@{/user/edit(id=${user.id})}">Edit</a>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<th:block layout:fragment="myScript">
+	
+		<script src="/js/script.js"></script>
+		
+	</th:block>
+</body>
+</html>
